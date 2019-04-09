@@ -4,7 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * CodeIgniter Build database Model
  *
- * 
  *
  * @package         CodeIgniter
  * @subpackage      Model
