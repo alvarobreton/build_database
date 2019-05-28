@@ -177,6 +177,12 @@ class Build_database
 			return false;
 		}
 
+		if (!$this->its_unique_key($table_name, $type) && $type == 'unique_index') 
+		{
+			# true
+			return false;
+		}
+
 		return $this->ci->build_database_model->edit_attributes($table_name, $attributes, $type);
 	}
 	/**
@@ -227,6 +233,14 @@ class Build_database
 		}
 
 		return $this->ci->build_database_model->edit_entities($table_name, $type);
+	}
+
+	public function its_unique_key($table_name = '', $column = '')
+	{
+		if(empty($table_name)) : return false; endif;
+		if(empty($column)) : return false; endif;
+
+		return $this->ci->build_database_model->its_unique_key($table_name, $column);
 	}
 }
 

@@ -166,6 +166,35 @@ class Build_database_model extends CI_Model
 		return true;
 	}
 
+	public function its_unique_key($table_name = '', $column = '')
+	{
+		if(empty($table_name)) : return false; endif;
+		if(empty($column)) : return false; endif;
+	
+		$query ="ALTER TABLE `".$table_name."` ENGINE=InnoDB";
+		$this->db->query($query);
+		
+		$query = "SELECT COLUMN_NAME, COLUMN_KEY FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$this->db->database."' AND TABLE_NAME = '".$table_name."' and COLUMN_KEY IN('PRI', 'UNI');";
+
+		$result =  $this->db->query($query);
+
+		if (!empty($result->result())) 
+		{
+			$result = $result->result();
+
+			foreach ($result as $row) 
+			{
+				if ($row->COLUMN_KEY == 'UNI' && $row->COLUMN_NAME == $column):
+					return true;
+				endif;
+			}
+			
+
+		}
+		return false;
+
+	}
+
 }
 
 /* End of file Build_database_model.php */
